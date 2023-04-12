@@ -162,7 +162,7 @@ def send_to_chatgpt(message):
         conversation_history = ""
 
     # Send the message to GPT-4
-    stop_sequence = "\n"
+    stop_sequence = '\n'
     response = openai.Completion.create(
         engine="text-davinci-003",
         prompt=f"{conversation_history}\nUser: {question}\nPsyinc:",
