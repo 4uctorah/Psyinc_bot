@@ -72,7 +72,7 @@ def answer(call):
 
 @bot.message_handler(content_types=['text'])
 def get_text(message):
-    available_commands = ['/help', '/cancel', '/feedback', '/settings', '/about']
+    available_commands = ['/help', '/cancel', '/feedback', '/settings', '/about', '/reset']
 
     if message.text == 'Мне нужен слушатель':
         bot.send_message(message.chat.id,
@@ -96,8 +96,19 @@ def get_text(message):
             settings_command(message)
         elif message.text.lower() == '/about':
             about_command(message)
+        elif message.text.lower() == '/reset':
+            reset_command(message)
+
     else:
         bot.send_message(message.chat.id, f'Я не знаю, что сказать.. ')
+
+
+@bot.message_handler(commands=['reset'])
+def reset_command(message):
+    chat_id = message.chat.id
+    if chat_id in user_conversations:
+        del user_conversations[chat_id]
+    bot.send_message(message.chat.id, "История разговора была сброшена. Теперь вы можете начать снова.")
 
 
 @bot.message_handler(commands=['cancel'])
