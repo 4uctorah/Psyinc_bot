@@ -1,39 +1,45 @@
+import openai
 import telebot
 import config
 from telebot import types
 
+# Import the keyboard functions
+from keyboards.inline import create_inline_keyboard
+from keyboards.reply import create_reply_keyboard
+
 bot = telebot.TeleBot(config.TOKEN)
+
+# Set up OpenAI API
+openai.api_key = config.OPENAI_API_KEY
+
+# Create an empty dictionary to store conversation history for each user
+user_conversations = {}
+
+welcome_text = (
+    "Приветствую!\n\n"
+    "Psyinc — это бот эмоциональной онлайн-поддержки, который поможет вам самостоятельно справиться с "
+    "повседневными переживаниями, позволит анонимно пообщаться с чутким слушаетелем, а так же предложит "
+    "помощь квалифицированного специалиста.\n\n"
+    "Автор бота Александр Гуртопов, который ведёт канал <a href='https://t.me/+qyO1cAXLfgRhMTNi'>Под коробкой</a>."
+)
 
 
 @bot.message_handler(commands=['start'])
 def welcome(message):
-    mess = f'Здравствуйте, <b>{message.from_user.first_name}</b>!' \
-           f' Я, бот который поможет получить поддержку в трудной ситуации.'
-    bot.send_message(message.chat.id, mess, parse_mode='html')
+    bot.send_message(message.chat.id, welcome_text, parse_mode='html')
 
 
 @bot.message_handler(commands=['get_info', 'info'])
-def get_user_info(message):
-    markup_inline = types.InlineKeyboardMarkup()
-    item_yes = types.InlineKeyboardButton(text='ДА', callback_data='yes')
-    item_no = types.InlineKeyboardButton(text='НЕТ', callback_data='no')
-    markup_inline.add(item_yes, item_no)
-    bot.send_message(message.chat.id, 'Хотите узнать о возможностях?',
-                     reply_markup=markup_inline)
-
+def get_info(message):
+    markup_inline = create_inline_keyboard()
+    bot.send_message(message.chat.id, 'Хотите узнать о возможностях?', reply_markup=markup_inline)
 
 
 @bot.callback_query_handler(func=lambda call: True)
 def answer(call):
     if call.data == 'yes':
-        # keyboard
-        markup_reply = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
-        item_1 = types.InlineKeyboardButton('Мне нужен слушатель')
-        item_2 = types.InlineKeyboardButton('Мне нужен психотерапевт')
-
-        markup_reply.add(item_1, item_2)
-        bot.send_message(call.message.chat.id, 'Чем вам помочь?',
-                         reply_markup=markup_reply)
+        markup_reply = create_reply_keyboard()
+        bot.send_message(call.message.chat.id, 'Чем вам помочь?', reply_markup=markup_reply)
     elif call.data == 'no':
         bot.send_message(call.message.chat.id, "Тогда, хорошего вам дня! 😉")
 
@@ -44,11 +50,42 @@ def get_text(message):
         bot.send_message(message.chat.id, f'Перевожу на слушателя: ')
     elif message.text == 'Мне нужен психотерапевт':
         bot.send_message(message.chat.id, f'Перевожу на специалиста: ')
+    elif message.text == 'Самопомощь':
+        bot.send_message(message.chat.id, f'Что вас беспокоит?')
+        bot.register_next_step_handler(message, send_to_chatgpt)
     else:
-        bot.send_message(message.chat.id, f'Я не знаю, что сказать: ')
+        bot.send_message(message.chat.id, f'Я не знаю, что сказать.. ')
 
-# RUN
-# bot.enable_save_next_step_handlers(delay=2)
-# bot.load_next_step_handlers()
+
+def send_to_chatgpt(message):
+    user_input = message.text
+    chat_id = message.chat.id
+
+    # Retrieve the conversation history or initialize an empty history
+    conversation_history = user_conversations.get(chat_id, "")
+
+    # Update the conversation history with the user's input
+    conversation_history += f"User: {user_input}\nAssistant:"
+
+    chatgpt_response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=conversation_history,
+        temperature=0.8,
+        max_tokens=500,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0
+    )
+
+    response_text = chatgpt_response.choices[0].text.strip()
+
+    # Update the conversation history with the assistant's response
+    conversation_history += f" {response_text}\n"
+    user_conversations[chat_id] = conversation_history
+
+    bot.send_message(message.chat.id, response_text)
+    # Register the next step handler to continue the conversation
+    bot.register_next_step_handler(message, send_to_chatgpt)
+
+
 bot.polling(none_stop=True)
-# python bot0.2.py
