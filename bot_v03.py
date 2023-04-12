@@ -107,7 +107,9 @@ def get_text(message):
 def reset_command(message):
     chat_id = message.chat.id
     if chat_id in user_conversations:
-        del user_conversations[chat_id]
+        user_conversations[chat_id] = ""
+    else:
+        user_conversations[chat_id] = ""
     bot.send_message(message.chat.id, "История разговора была сброшена. Теперь вы можете начать снова.")
 
 
