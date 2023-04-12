@@ -72,6 +72,8 @@ def answer(call):
 
 @bot.message_handler(content_types=['text'])
 def get_text(message):
+    available_commands = ['/help', '/cancel', '/feedback', '/settings', '/about']
+
     if message.text == 'Мне нужен слушатель':
         bot.send_message(message.chat.id,
                          f'У нас есть в наличии слушатели для ваших нужд. Для получения дополнительной '
@@ -83,8 +85,17 @@ def get_text(message):
     elif message.text == 'Самопомощь':
         bot.send_message(message.chat.id, f'Что вас беспокоит?')
         bot.register_next_step_handler(message, send_to_chatgpt)
-    elif message.text.lower().startswith('/'):
-        help_command(message)
+    elif message.text.lower() in available_commands:
+        if message.text.lower() == '/help':
+            help_command(message)
+        elif message.text.lower() == '/cancel':
+            cancel_command(message)
+        elif message.text.lower() == '/feedback':
+            feedback_command(message)
+        elif message.text.lower() == '/settings':
+            settings_command(message)
+        elif message.text.lower() == '/about':
+            about_command(message)
     else:
         bot.send_message(message.chat.id, f'Я не знаю, что сказать.. ')
 
