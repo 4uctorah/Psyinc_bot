@@ -142,8 +142,8 @@ def settings_command(message):
 def about_command(message):
     about_text = (
         "Psyinc — это бот эмоциональной онлайн-поддержки, созданный Александром Гуртоповым.\n\n"
-        "Версия: 1.0\n"
-        "Дата создания: 2023\n\n"
+        "Версия: 1.0-beta\n"
+        "Дата создания: 13.04.2023\n\n"
         "Автор: Александр Гуртопов\n"
         "Контакты: @bugseekerok\n\n"
         "Бот разработан на основе искусственного интеллекта OpenAI GPT-4 для предоставления эмоциональной поддержки "
@@ -185,9 +185,10 @@ def send_to_chatgpt(message):
         bot.send_message(chat_id,
                          "Пожалуйста, используйте одну из доступных команд. Введите /help для получения списка команд.")
 
-
 if __name__ == '__main__':
-    bot.remove_webhook()
-    time.sleep(0.5)
-    bot.set_webhook(url=f'{config.WEBHOOK_HOST}/{config.TOKEN}')
-    app.run(host=config.WEBHOOK_LISTEN, port=config.WEBHOOK_PORT)
+    bot.polling(none_stop=True)
+# if __name__ == '__main__':
+#     bot.remove_webhook()
+#     time.sleep(0.5)
+#     bot.set_webhook(url=f'{config.WEBHOOK_HOST}/{config.TOKEN}')
+#     app.run(host=config.WEBHOOK_LISTEN, port=config.WEBHOOK_PORT)
