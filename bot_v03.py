@@ -98,7 +98,7 @@ def send_to_chatgpt(message):
 
     try:
         chatgpt_response = openai.Completion.create(
-            engine="gpt-3.5-turbo",
+            engine="text-davinci-003",
             prompt=conversation_history,
             temperature=0.8,
             max_tokens=500,
