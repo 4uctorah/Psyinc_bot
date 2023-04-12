@@ -1,3 +1,5 @@
+import os
+
 import openai
 import telebot
 import config
@@ -127,5 +129,6 @@ def send_to_chatgpt(message):
 
 if __name__ == '__main__':
     bot.remove_webhook()
-    bot.set_webhook(url='https://4uctorah.pythonanywhere.com/5006443958:AAEQaNc1K-WQG2OCT0e72HuZxNtp2UpJEY0')
-    app.run()
+    bot.set_webhook(
+        url='https://4uctorah.pythonanywhere.com/5006443958:AAEQaNc1K-WQG2OCT0e72HuZxNtp2UpJEY0' + config.TOKEN)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
