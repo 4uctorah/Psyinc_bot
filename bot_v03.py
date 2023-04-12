@@ -125,11 +125,11 @@ def send_to_chatgpt(message):
     bot.register_next_step_handler(message, send_to_chatgpt)
 
 
-# bot.polling(none_stop=True)
+bot.polling(none_stop=True)
 
-if __name__ == '__main__':
-    bot.remove_webhook()
-    time.sleep(1)
-    bot.set_webhook(url='https://4uctorah.pythonanywhere.com/' + config.TOKEN)
-
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+# if __name__ == '__main__':
+#     bot.remove_webhook()
+#     time.sleep(1)
+#     bot.set_webhook(url='https://4uctorah.pythonanywhere.com/' + config.TOKEN)
+#
+#     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
