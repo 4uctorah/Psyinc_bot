@@ -1,4 +1,5 @@
 import os
+from datetime import time
 
 import openai
 import telebot
@@ -128,6 +129,7 @@ def send_to_chatgpt(message):
 
 if __name__ == '__main__':
     bot.remove_webhook()
-    bot.set_webhook(
-        url='https://4uctorah.pythonanywhere.com/' + config.TOKEN)
+    time.sleep(1)
+    bot.set_webhook(url='https://4uctorah.pythonanywhere.com/' + config.TOKEN)
+
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
