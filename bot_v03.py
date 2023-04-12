@@ -83,6 +83,10 @@ def get_text(message):
     elif message.text == 'Самопомощь':
         bot.send_message(message.chat.id, f'Что вас беспокоит?')
         bot.register_next_step_handler(message, send_to_chatgpt)
+    elif message.text.lower().startswith('/cancel'):
+        cancel_command(message)
+    elif message.text.lower().startswith('/feedback'):
+        feedback_command(message)
     else:
         bot.send_message(message.chat.id, f'Я не знаю, что сказать.. ')
 
