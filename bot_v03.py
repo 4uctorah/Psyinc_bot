@@ -6,6 +6,9 @@ from telebot import types
 # Import the keyboard functions
 from keyboards.inline import create_inline_keyboard
 from keyboards.reply import create_reply_keyboard
+from flask import Flask, request
+
+app = Flask(__name__)
 
 bot = telebot.TeleBot(config.TOKEN)
 
@@ -33,6 +36,13 @@ def welcome(message):
 def get_info(message):
     markup_inline = create_inline_keyboard()
     bot.send_message(message.chat.id, 'Хотите узнать о возможностях?', reply_markup=markup_inline)
+
+
+@app.route('/5006443958:AAEQaNc1K-WQG2OCT0e72HuZxNtp2UpJEY0', methods=['POST'])
+def webhook():
+    update = telebot.types.Update.de_json(request.get_json(force=True))
+    bot.process_new_updates([update])
+    return '', 200
 
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -88,4 +98,9 @@ def send_to_chatgpt(message):
     bot.register_next_step_handler(message, send_to_chatgpt)
 
 
-bot.polling(none_stop=True)
+# bot.polling(none_stop=True)
+
+if __name__ == '__main__':
+    bot.remove_webhook()
+    bot.set_webhook(url='https://4uctorah.pythonanywhere.com/5006443958:AAEQaNc1K-WQG2OCT0e72HuZxNtp2UpJEY0')
+    app.run()
