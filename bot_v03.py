@@ -57,9 +57,13 @@ def answer(call):
 @bot.message_handler(content_types=['text'])
 def get_text(message):
     if message.text == 'Мне нужен слушатель':
-        bot.send_message(message.chat.id, f'Перевожу на слушателя: ')
+        bot.send_message(message.chat.id,
+                         f'У нас есть в наличии слушатели для ваших нужд. Для получения дополнительной '
+                         f'информации или для заказа слушателя, пожалуйста, напишите @bugseekerok')
     elif message.text == 'Мне нужен психотерапевт':
-        bot.send_message(message.chat.id, f'Перевожу на специалиста: ')
+        bot.send_message(message.chat.id, f'У нас есть квалифицированные психотерапевты, которые могут предоставить '
+                                          f'профессиональную психотерапевтическую помощь. Для заказа услуги или для '
+                                          f'получения дополнительной информации, напишите @bugseekerok')
     elif message.text == 'Самопомощь':
         bot.send_message(message.chat.id, f'Что вас беспокоит?')
         bot.register_next_step_handler(message, send_to_chatgpt)
