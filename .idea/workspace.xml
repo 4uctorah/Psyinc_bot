@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e2430156-877e-49c2-942a-1ad6aac197cd" name="Changes" comment="git config --global user.email &quot;agurtopov@icloud.com&quot;&#10;git config --global user.name &quot;bug_seeker&quot;">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot_v03.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot_v03.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -137,7 +138,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681327827459</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="git config --global user.email &quot;agurtopov@icloud.com&quot;&#10;git config --global user.name &quot;bug_seeker&quot;">
+      <created>1681328293893</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1681328293893</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
