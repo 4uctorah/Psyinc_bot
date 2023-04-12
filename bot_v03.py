@@ -72,7 +72,7 @@ def answer(call):
 
 @bot.message_handler(content_types=['text'])
 def get_text(message):
-    available_commands = ['/help', '/cancel', '/feedback', '/settings', '/about', '/reset']
+    available_commands = ['/    help', '/cancel', '/feedback', '/settings', '/about', '/reset']
 
     if message.text == 'Мне нужен слушатель':
         bot.send_message(message.chat.id,
@@ -138,57 +138,47 @@ def settings_command(message):
 def about_command(message):
     about_text = (
         "Psyinc — это бот эмоциональной онлайн-поддержки, созданный Александром Гуртоповым.\n\n"
-        "Автор ведет канал <a href='https://t.me/+qyO1cAXLfgRhMTNi'>Под коробкой</a>.\n\n"
         "Версия: 1.0\n"
-        "Контактная информация: [ваш email или другой способ связи]"
+        "Дата создания: 2023\n\n"
+        "Автор: Александр Гуртопов\n"
+        "Контакты: @bugseekerok\n\n"
+        "Бот разработан на основе искусственного интеллекта OpenAI GPT-4 для предоставления эмоциональной поддержки "
+        "пользователям, а также предложения услуг слушателей и психотерапевтов.\n\n"
+        "Автор бота ведёт канал <a href='https://t.me/+qyO1cAXLfgRhMTNi'>Под коробкой</a>."
     )
+    bot.send_message(message.chat.id, about_text, parse_mode='html')
 
 
 def send_to_chatgpt(message):
-    user_input = message.text
     chat_id = message.chat.id
+    question = message.text
 
-    # Retrieve the conversation history or initialize an empty history
-    conversation_history = user_conversations.get(chat_id, "")
+    # Check if the user has a conversation history
+    if chat_id in user_conversations:
+        conversation_history = user_conversations[chat_id]
+    else:
+        conversation_history = ""
 
-    # Update the conversation history with the user's input
-    conversation_history += f"{user_input}\n"
+    # Send the message to GPT-4
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=f"{conversation_history}\nUser: {question}\nPsyinc:",
+        max_tokens=500,
+        n=1,
+        stop=None,
+        temperature=0.8,
+    )
 
-    try:
-        chatgpt_response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=conversation_history,
-            temperature=0.8,
-            max_tokens=500,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0
-        )
-    except Exception as e:
-        bot.send_message(message.chat.id,
-                         "Извините, возникла проблема при обработке вашего запроса. Пожалуйста, попробуйте снова.")
-        print(f"Error: {e}")
-        return
-
-    response_text = chatgpt_response.choices[0].text.strip()
-
-    # Update the conversation history with the assistant's response
-    conversation_history += f"{response_text}\n"
+    # Get the response and add it to the conversation history
+    answer = response.choices[0].text.strip()
+    conversation_history += f"\nUser: {question}\nPsyinc: {answer}"
     user_conversations[chat_id] = conversation_history
 
-    bot.send_message(message.chat.id, response_text)
-    # Register the next step handler to continue the conversation
-    bot.register_next_step_handler(message, send_to_chatgpt)
+    bot.send_message(chat_id, answer)
 
-
-# if __name__ == '__main__':
-#     bot.remove_webhook()
-#     time.sleep(1)  # Ожидание, чтобы убедиться, что вебхук удален
-#     bot.polling(none_stop=True)
 
 if __name__ == '__main__':
     bot.remove_webhook()
-    time.sleep(1)
-    bot.set_webhook(url='https://4uctorah.pythonanywhere.com/' + config.TOKEN)
-#     bot.polling(none_stop=True)
-#     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    time.sleep(0.5)
+    bot.set_webhook(url=f'{config.WEBHOOK_HOST}/{config.TOKEN}')
+    app.run(host=config.WEBHOOK_LISTEN, port=config.WEBHOOK_PORT)
