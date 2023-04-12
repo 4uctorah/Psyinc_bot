@@ -38,7 +38,7 @@ def get_info(message):
     bot.send_message(message.chat.id, 'Хотите узнать о возможностях?', reply_markup=markup_inline)
 
 
-@app.route('/5006443958:AAEQaNc1K-WQG2OCT0e72HuZxNtp2UpJEY0', methods=['POST'])
+@app.route(f'/{config.TOKEN}', methods=['POST'])
 def webhook():
     update = telebot.types.Update.de_json(request.get_json(force=True))
     bot.process_new_updates([update])
@@ -77,15 +77,21 @@ def send_to_chatgpt(message):
     # Update the conversation history with the user's input
     conversation_history += f"{user_input}\n"
 
-    chatgpt_response = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=conversation_history,
-        temperature=0.8,
-        max_tokens=500,
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0
-    )
+    try:
+        chatgpt_response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=conversation_history,
+            temperature=0.8,
+            max_tokens=500,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0
+        )
+    except Exception as e:
+        bot.send_message(message.chat.id,
+                         "Извините, возникла проблема при обработке вашего запроса. Пожалуйста, попробуйте снова.")
+        print(f"Error: {e}")
+        return
 
     response_text = chatgpt_response.choices[0].text.strip()
 
