@@ -85,6 +85,32 @@ def get_text(message):
     else:
         bot.send_message(message.chat.id, f'Я не знаю, что сказать.. ')
 
+@bot.message_handler(commands=['cancel'])
+def cancel_command(message):
+bot.send_message(message.chat.id, "Текущее действие отменено. Если вам нужна помощь, введите /help.")
+
+@bot.message_handler(commands=['feedback'])
+def feedback_command(message):
+bot.send_message(message.chat.id, "Пожалуйста, введите свою обратную связь:")
+bot.register_next_step_handler(message, process_feedback)
+
+def process_feedback(message):
+feedback = message.text
+# Здесь вы можете сохранить обратную связь пользователя, например, в файл или базу данных
+bot.send_message(message.chat.id, "Спасибо за вашу обратную связь!")
+
+@bot.message_handler(commands=['settings'])
+def settings_command(message):
+bot.send_message(message.chat.id, "Настройки пока не реализованы. Введите /help, чтобы увидеть список доступных команд.")
+
+@bot.message_handler(commands=['about'])
+def about_command(message):
+about_text = (
+"Psyinc — это бот эмоциональной онлайн-поддержки, созданный Александром Гуртоповым.\n\n"
+"Автор ведет канал <a href='https://t.me/+qyO1cAXLfgRhMTNi'>Под коробкой</a>.\n\n"
+"Версия: 1.0\n"
+"Контактная информация: [ваш email или другой способ связи]"
+)
 
 def send_to_chatgpt(message):
     user_input = message.text
