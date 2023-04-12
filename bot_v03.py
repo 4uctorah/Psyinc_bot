@@ -2,13 +2,12 @@ import os
 
 import openai
 import telebot
-import config
-from telebot import types
+from flask import Flask, request
 
+import config
 # Import the keyboard functions
 from keyboards.inline import create_inline_keyboard
 from keyboards.reply import create_reply_keyboard
-from flask import Flask, request
 
 app = Flask(__name__)
 
