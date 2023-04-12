@@ -1,6 +1,4 @@
-import os
-from datetime import time
-
+import time
 import openai
 import telebot
 from flask import Flask, request
@@ -125,11 +123,14 @@ def send_to_chatgpt(message):
     bot.register_next_step_handler(message, send_to_chatgpt)
 
 
-bot.polling(none_stop=True)
-
 # if __name__ == '__main__':
 #     bot.remove_webhook()
-#     time.sleep(1)
-#     bot.set_webhook(url='https://4uctorah.pythonanywhere.com/' + config.TOKEN)
-#
+#     time.sleep(1)  # Ожидание, чтобы убедиться, что вебхук удален
+#     bot.polling(none_stop=True)
+
+if __name__ == '__main__':
+    bot.remove_webhook()
+    time.sleep(1)
+    bot.set_webhook(url='https://4uctorah.pythonanywhere.com/' + config.TOKEN)
+#     bot.polling(none_stop=True)
 #     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
