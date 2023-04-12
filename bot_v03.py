@@ -32,6 +32,21 @@ def welcome(message):
     bot.send_message(message.chat.id, welcome_text, parse_mode='html')
 
 
+@bot.message_handler(commands=['help'])
+def help_command(message):
+    help_text = (
+        "Вот список доступных команд:\n"
+        "/start - начать работу с ботом\n"
+        "/info или /get_info - узнать о возможностях бота\n"
+        "/help - получить справочную информацию о доступных командах\n"
+        "/cancel - отменить текущее действие или диалог\n"
+        "/feedback - отправить обратную связь о работе бота\n"
+        "/settings - изменить настройки бота\n"
+        "/about - узнать информацию о создателях бота, версии и контактных данных\n"
+    )
+    bot.send_message(message.chat.id, help_text)
+
+
 @bot.message_handler(commands=['get_info', 'info'])
 def get_info(message):
     markup_inline = create_inline_keyboard()
@@ -83,7 +98,7 @@ def send_to_chatgpt(message):
 
     try:
         chatgpt_response = openai.Completion.create(
-            engine="text-davinci-003",
+            engine="gpt-3.5-turbo",
             prompt=conversation_history,
             temperature=0.8,
             max_tokens=500,
