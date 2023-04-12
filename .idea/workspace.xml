@@ -5,39 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e2430156-877e-49c2-942a-1ad6aac197cd" name="Changes" comment="git config --global user.email &quot;agurtopov@icloud.com&quot;&#10;git config --global user.name &quot;bug_seeker&quot;">
-      <change afterPath="$PROJECT_DIR$/.env.dist" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/filters/admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handlers/admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handlers/echo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handlers/user.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/keyboards/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/keyboards/inline.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/keyboards/reply.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/loader.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/middlewares/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/middlewares/db.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/misc/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/misc/states.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/systemd/tgbot.service" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tgbot/config.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/set_bot_commands.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/telegramBot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/telegramBot.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot0.2.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot0.2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hundlers/_init_.py" beforeDir="false" afterPath="$PROJECT_DIR$/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hundlers/callback.py" beforeDir="false" afterPath="$PROJECT_DIR$/filters/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hundlers/personal_actions.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +82,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650226027306</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="git config --global user.email &quot;agurtopov@icloud.com&quot;&#10;git config --global user.name &quot;bug_seeker&quot;">
+      <created>1681309372458</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1681309372458</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
