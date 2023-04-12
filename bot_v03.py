@@ -30,7 +30,9 @@ welcome_text = (
 
 @bot.message_handler(commands=['start'])
 def welcome(message):
-    bot.send_message(message.chat.id, welcome_text, parse_mode='html')
+    chat_id = message.chat.id
+    user_conversations[chat_id] = ""
+    bot.send_message(chat_id, welcome_text, parse_mode='html')
 
 
 @bot.message_handler(commands=['help'])
@@ -161,23 +163,27 @@ def send_to_chatgpt(message):
     else:
         conversation_history = ""
 
-    # Send the message to GPT-4
-    stop_sequence = '\n'
-    response = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=f"{conversation_history}\nUser: {question}\nPsyinc:",
-        max_tokens=500,
-        n=1,
-        stop=stop_sequence,
-        temperature=0.8,
-    )
+    # If the message is not a command, send it to GPT-4
+    if not question.startswith('/'):
+        stop_sequence = '\n'
+        response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=f"{conversation_history}\nUser: {question}\nPsyinc:",
+            max_tokens=500,
+            n=1,
+            stop=stop_sequence,
+            temperature=0.8,
+        )
 
-    # Get the response and add it to the conversation history
-    answer = response.choices[0].text.strip()
-    conversation_history += f"\nUser: {question}\nPsyinc: {answer}"
-    user_conversations[chat_id] = conversation_history
+        # Get the response and add it to the conversation history
+        answer = response.choices[0].text.strip()
+        conversation_history += f"\nUser: {question}\nPsyinc: {answer}"
+        user_conversations[chat_id] = conversation_history
 
-    bot.send_message(chat_id, answer)
+        bot.send_message(chat_id, answer)
+    else:
+        bot.send_message(chat_id,
+                         "Пожалуйста, используйте одну из доступных команд. Введите /help для получения списка команд.")
 
 
 if __name__ == '__main__':
