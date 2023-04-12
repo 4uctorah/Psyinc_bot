@@ -75,7 +75,7 @@ def send_to_chatgpt(message):
     conversation_history = user_conversations.get(chat_id, "")
 
     # Update the conversation history with the user's input
-    conversation_history += f"User: {user_input}\nAssistant:"
+    conversation_history += f"{user_input}\n"
 
     chatgpt_response = openai.Completion.create(
         engine="text-davinci-003",
@@ -90,7 +90,7 @@ def send_to_chatgpt(message):
     response_text = chatgpt_response.choices[0].text.strip()
 
     # Update the conversation history with the assistant's response
-    conversation_history += f" {response_text}\n"
+    conversation_history += f"{response_text}\n"
     user_conversations[chat_id] = conversation_history
 
     bot.send_message(message.chat.id, response_text)
