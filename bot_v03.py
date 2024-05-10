@@ -8,13 +8,14 @@ import config
 # Import the keyboard functions
 from keyboards.inline import create_inline_keyboard
 from keyboards.reply import create_reply_keyboard
+from tgbot.config import load_config
 
 app = Flask(__name__)
-
-bot = telebot.TeleBot(config.TOKEN)
+config = load_config()
+bot = telebot.TeleBot(config.tg_bot.token)
 
 # Set up OpenAI API
-openai.api_key = config.OPENAI_API_KEY
+openai.api_key = config.openai_api_key
 
 # Create an empty dictionary to store conversation history for each user
 user_conversations = {}
@@ -56,7 +57,7 @@ def get_info(message):
     bot.send_message(message.chat.id, 'Хотите узнать о возможностях?', reply_markup=markup_inline)
 
 
-@app.route(f'/{config.TOKEN}', methods=['POST'])
+@app.route(f'/{config.tg_bot.token}', methods=['POST'])
 def webhook():
     update = telebot.types.Update.de_json(request.get_json(force=True))
     bot.process_new_updates([update])
